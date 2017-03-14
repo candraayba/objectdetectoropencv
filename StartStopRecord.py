@@ -1,6 +1,8 @@
+import time
+
+# Install numpy & openCv (http://www.pyimagesearch.com/2016/04/18/install-guide-raspberry-pi-3-raspbian-jessie-opencv-3/)
 import numpy as np
 import cv2
-import time
 
 # Start Camera
 cap = cv2.VideoCapture(0)
@@ -9,7 +11,7 @@ cap = cv2.VideoCapture(0)
 out = cv2.VideoWriter("Video " + time.strftime("%X") + ".avi", -1, 20.0, (640,480))
 
 # Recording
-while(cap.isOpened()):
+if(cap.isOpened()):
     ret, frame = cap.read()
     if ret==True:
         frame = cv2.flip(frame,0)
@@ -19,7 +21,9 @@ while(cap.isOpened()):
 
         cv2.imshow('frame',frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
+            out.release()
+        elif cv2.waitKey(1) & 0xFF == ord('p'):
+            out.write(frame)
     else:
         break
 
